@@ -1,3 +1,4 @@
+ /*
  var mydiv = document.getElementById("mydiv");
  mydiv.innerHTML = "Hello World";
  function myfunc(){
@@ -72,7 +73,7 @@ addEvents();
         'text-align': 'center'
 
     });
-/*//iterate over each script element and add each one's source url as text to the div
+//iterate over each script element and add each one's source url as text to the div
    $('script').each(function(){
         var thesource = $(this).attr('src');
        $('#mydiv').append(thesource);
@@ -101,7 +102,7 @@ addEvents();
    //get the text color and add it as text to the div
      var thecolor = $('#mydiv').css('color');
    $('#mydiv').append(thecolor);
-    */
+    
 //adds a column for the size of the city
 function addColumns(cityPop){
     $('tr').each(function(i){
@@ -163,3 +164,166 @@ function addEvents(){
 //call the initialize function when the document has loaded
 $(document).ready(initialize);
 // jQuery('#mydiv').html('Hello World');
+function jsAjax(){
+    // Step 1: Create the request 
+    var ajaxRequest = new XMLHttpRequest();
+
+    //Step 2: Create an event handler to send received data to a callback function
+    ajaxRequest.onreadystatechange = function(){
+        if (ajaxRequest.readyState === 4){
+            //console.log("readyState: ", ajaxRequest.readyState);
+            callback(ajaxRequest.response);
+        };
+    };
+
+    //Step 3: Open the server connection
+    ajaxRequest.open('GET', 'data/map.geojson', true);
+
+    //Step 4: Set the response data type
+    ajaxRequest.responseType = "json";
+
+    //Step 5: Send the request
+    ajaxRequest.send();
+
+};
+
+//define callback function
+function callback(response){
+    //tasks using the data go here
+    console.log(response);
+};
+$.ajax("data/map.geojson",{
+    dataType: "json",
+    success: callback
+});
+//define AJAX function
+function jQueryAjax(){
+    //basic jQuery ajax method
+    $.ajax("data/map.geojson",{
+        dataType: "json",
+        success: callback
+    });
+};
+//define callback function
+function callback (response, status, jqXHRobject){
+    //takss usin ght data fo HEREEEEE!!!!
+    console.log(response);
+};
+$(document).ready(jQueryAjax);
+
+//an AJAX function
+function jQueryAjax(){
+    var mydata = $.ajax("data/MegaCities.geojson", {
+        dataType: "json"
+    });
+    return mydata;
+};
+
+var mydata = jQueryAjax();
+console.log(mydata.responseJSON);
+console.log(mydata); //the jQuery XMLHttpRequest object
+
+//define AJAX function
+function jQueryAjax(){
+    //basic jQuery ajax method
+    $.ajax("data/map.geojson", {
+        dataType: "json",
+        success: callback
+    });
+};
+
+function jQueryAjax(){
+    //define a variable to hold the data
+    var mydata;
+
+    //basic jQuery ajax method
+    $.ajax("data/map.geojson", {
+        dataType: "json",
+        success: function(response){
+            mydata = response;
+
+            //check the data
+            console.log(mydata);
+        }
+    });
+
+    //check the data
+    console.log(mydata);
+};
+
+//define callback function
+function callback(response, status, jqXHRobject){
+
+    //TASKS USING THE DATA GO HERE
+    console.log(response);
+
+};
+
+$(document).ready(jQueryAjax);
+
+function debugCallback(response){
+    
+    $(mydiv).append('GeoJSON data: ' + JSON.stringify(mydata));
+};
+
+function debugAjax(){
+    
+    var mydata;
+
+    $.ajax("data/map.geojson", {
+        dataType: "json",
+        success: function(response){
+            
+            debugCallback(mydata);
+        }
+    });
+
+    $(mydiv).append('<br>GeoJSON data:<br>' + JSON.stringify(mydata));
+};
+
+$(mydiv).append('GeoJSON data: ' + JSON.stringify(mydata));
+
+window.onload = jsAjax();
+*/
+//calls the function initialize to call the debugCallback and debugAjax functions. 
+function initialize (){
+    //calls the function debugCallback with no parameters taken
+    debugCallback();
+     //calls the function debugAJAXwith no parameters taken
+    debugAjax();
+};
+
+function debugCallback(response){
+    //mydata changed to response intoder to use the parameter given
+    //add a # and quotes around mydiv
+    $('#mydiv').append('<br>GeoJSON data: <br>' + JSON.stringify(response));
+    
+};
+
+function debugAjax(){
+    //variable is not needed, not used anywhere or implemented
+    //var mydata;
+    //finds the geojson file 
+    $.ajax("data/map.geojson", {
+        //states the data type of file called
+        dataType: "json",
+        success: function(response){
+            //my data changed to response to be passed in as a parameter to debugCallback
+            debugCallback(response);
+            //prints to console.
+            console.log(response);
+        }
+    });
+    console.log(response);
+    //changing all mydata to reponse to be passed in as parameters
+    //add a # and quotes around mydiv
+    //not needaded, already called above
+    //$('#mydiv').append('<br>GeoJSON data:<br>' + JSON.stringify(response));
+};
+
+//this is not needed, already implemented 2 times
+//$(#mydiv).append('GeoJSON data: ' + JSON.stringify(mydata));
+
+//call the initialize function when the document has loaded
+$(document).ready(initialize);
+
